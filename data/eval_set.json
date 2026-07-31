@@ -1,0 +1,170 @@
+[
+    {
+        "question": "According to Recital 29 of the AI Act, what conditions must be met for AI-enabled subliminal techniques to be lawfully used in psychological treatment or physical rehabilitation?",
+        "ground_truth_answer": "They must be carried out in accordance with the applicable law and medical standards, including obtaining the explicit consent of the individual or their legal representatives as a condition for use.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "General Guidance"
+    },
+    {
+        "question": "If an AI system uses a client's socio-economic situation to provide banking services, what conditions under Article 5(1)(b) of the AI Act and other Union legislations must be met to ensure it is not classified as exploiting vulnerabilities, and what is the overarching harm threshold required for Article 5(1)(b) prohibitions to apply?",
+        "ground_truth_answer": "To not qualify as exploitation of vulnerabilities under Article 5(1)(b), the system must comply with Union legislation on financial services, consumer protection, data protection, and non-discrimination. It must be designed to protect and support people identified as vulnerable (due to age, disability, or socio-economic circumstances), be beneficial to those groups, and contribute to fairer and more sustainable financial services. Additionally, for the prohibitions under Article 5(1)(b) to apply at all, an essential condition is that the AI-enabled practice must cause or be reasonably likely to cause significant harm.",
+        "question_type": "multi_hop",
+        "expected_chunk_id": "General Guidance"
+    },
+    {
+        "question": "What are the specific administrative fines or penalties imposed on a provider or deployer if they are found engaging in prohibited AI practices listed under Article 5 of the AI Act?",
+        "ground_truth_answer": "Providers and deployers engaging in prohibited AI practices may be fined up to EUR 35 000 000 or, if the offender is an undertaking, up to 7% of its total worldwide annual turnover for the preceding financial year, whichever is higher. EU institutions, bodies and agencies that violate the prohibitions may be subject to administrative fines of up to EUR 1 500 000.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "General Guidance"
+    },
+    {
+        "question": "What is the exact date of entry into force for the provisions outlined specifically in Article 78 of the EU AI Act?",
+        "ground_truth_answer": "I do not have enough legal context to answer this question.",
+        "question_type": "negative_control",
+        "expected_chunk_id": ""
+    },
+    {
+        "question": "According to Article 112, what specific lists is the Commission required to assess the need for amending?",
+        "ground_truth_answer": "The Commission shall assess the need for amendment of the list set out in Annex III and of the list of prohibited AI practices.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "Article 112"
+    },
+    {
+        "question": "Under Article 112, the Commission must assess the need to amend the list of prohibited AI practices. To determine which specific practices are currently prohibited before any such amendment, which other Article of the EU AI Act laying down these prohibited practices must be cross-referenced?",
+        "ground_truth_answer": "Article 112 states that the Commission must assess the need to amend the list of prohibited AI practices laid down in the Act, meaning a reader must cross-reference the specific Article that establishes and defines these prohibited AI practices alongside Annex III.",
+        "question_type": "multi_hop",
+        "expected_chunk_id": "Article 112"
+    },
+    {
+        "question": "How frequently or at what specific time intervals must the Commission conduct the evaluation and review of Annex III and the list of prohibited practices under Article 112?",
+        "ground_truth_answer": "The Commission shall carry out an assessment of the need to amend the list of high-risk AI systems and the list of prohibited practices once a year.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "Article 112"
+    },
+    {
+        "question": "What specific issues must the common principles in the Commission's implementing acts on AI regulatory sandboxes cover under Article 58(1)?",
+        "ground_truth_answer": "The common principles must cover: (a) eligibility and selection criteria for participation in the AI regulatory sandbox; (b) procedures for the application, participation, monitoring, exiting from and termination of the AI regulatory sandbox, including the sandbox plan and the exit report; and (c) the terms and conditions applicable to the participants.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "Article 58"
+    },
+    {
+        "question": "To prevent fragmentation across the Union regarding AI regulatory sandboxes, what mechanism must the Commission use to establish common principles, and what specific procedural documents must be included in the application and exit procedures?",
+        "ground_truth_answer": "The Commission must adopt implementing acts specifying detailed arrangements. These implementing acts must include common principles covering procedures for application, participation, monitoring, exiting, and termination, which specifically include a 'sandbox plan' and an 'exit report'.",
+        "question_type": "multi_hop",
+        "expected_chunk_id": "Article 58"
+    },
+    {
+        "question": "What is the specific timeline or deadline by which the Commission must adopt the implementing acts for AI regulatory sandboxes under Article 58?",
+        "ground_truth_answer": "I do not have enough legal context to answer this question.",
+        "question_type": "negative_control",
+        "expected_chunk_id": ""
+    },
+    {
+        "question": "What specific type of documentation is referred to in Article 11(1) that must be drawn up before a high-risk AI system is placed on the market?",
+        "ground_truth_answer": "The technical documentation.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "Article 11"
+    },
+    {
+        "question": "Under Article 11(1), what is the name of the documentation that a developer must prepare, and what format adjustments are provided for small and microenterprises?",
+        "ground_truth_answer": "The documentation is called 'technical documentation'. SMEs and start-ups may provide this documentation in a simplified manner using a standardized form established by the Commission.",
+        "question_type": "multi_hop",
+        "expected_chunk_id": "Article 11"
+    },
+    {
+        "question": "Which specific annex of the EU AI Act outlines the minimum elements that must be contained within the technical documentation referred to in Article 11(1)?",
+        "ground_truth_answer": "The technical documentation shall contain, at a minimum, the elements set out in Annex IV.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "Article 11"
+    },
+    {
+        "question": "According to Article 2(8) of the AI Act, what specific activities are excluded from the scope of the Act prior to an AI system or model being placed on the market or put into service?",
+        "ground_truth_answer": "According to Article 2(8) of the AI Act, the Act does not apply to 'any research, testing or development activity regarding AI systems or AI models prior to their being placed on the market or put into service'.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "General Guidance"
+    },
+    {
+        "question": "How does the exclusion for scientific research and development under Article 2(6) interact with the prohibition on manipulative techniques under Article 5(1)(a) of the AI Act?",
+        "ground_truth_answer": "Under Article 2(6), AI systems or models (including their outputs) specifically developed and put into service for the sole purpose of scientific research and development are excluded from the scope of the AI Act. Consequently, scientific research into cognitive and behavioural responses to AI-driven subliminal or deceptive stimuli is permitted and exempt from the AI Act's scope, notwithstanding the general prohibition on manipulative techniques under Article 5(1)(a).",
+        "question_type": "multi_hop",
+        "expected_chunk_id": "General Guidance"
+    },
+    {
+        "question": "What are the specific administrative fines or penalties imposed under Article 60 of the AI Act if a municipality fails to obtain free and informed consent during real-world testing of a facial recognition system?",
+        "ground_truth_answer": "I do not have enough legal context to answer this question.",
+        "question_type": "negative_control",
+        "expected_chunk_id": ""
+    },
+    {
+        "question": "According to Article 14, what must be provided regarding the performance metrics of a specific AI system?",
+        "ground_truth_answer": "A description of the appropriateness of the performance metrics for the specific AI system must be provided.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "Article 14"
+    },
+    {
+        "question": "How do the technical measures facilitating output interpretation by deployers under Article 14 support the broader EU AI Act objective of enabling effective human oversight?",
+        "ground_truth_answer": "By putting in place technical measures that facilitate the interpretation of the AI system's outputs, deployers are provided with the necessary technical understanding to effectively monitor, interpret, and exercise human oversight over the system's operations.",
+        "question_type": "multi_hop",
+        "expected_chunk_id": "Article 14"
+    },
+    {
+        "question": "What are the specific financial penalties or administrative fines imposed on a deployer who fails to maintain the detailed description of the risk management system mentioned in Article 14?",
+        "ground_truth_answer": "I do not have enough legal context to answer this question.",
+        "question_type": "negative_control",
+        "expected_chunk_id": ""
+    },
+    {
+        "question": "According to the text, what factors must be considered in the case-by-case assessment to determine whether treatment resulting from social scoring is disproportionate under Article 5(1)(c)(ii)?",
+        "ground_truth_answer": "The assessment must consider all relevant circumstances of the case, the severity of the impact and the interference with the fundamental rights of the person concerned compared to the gravity of the social behaviour (taking into account the general principle of proportionality), as well as general ethical considerations and principles for fairness and social justice. Sectoral Union or national legislation setting specific criteria and procedures may also be relevant.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "General Guidance"
+    },
+    {
+        "question": "How does the text distinguish between prohibited social scoring practices by a public labour agency under Article 5(1)(c) and lawful evaluation practices?",
+        "ground_truth_answer": "Prohibited practices involve scoring individuals based on variables collected or inferred from data and contexts with no apparent connection to the purpose of evaluation (such as marital status, chronic diseases, or addiction). In contrast, lawful practices evaluate persons for specific purposes in compliance with Union and national law, which specify the data considered relevant and necessary for the evaluation.",
+        "question_type": "multi_hop",
+        "expected_chunk_id": "General Guidance"
+    },
+    {
+        "question": "What specific constitutional articles did the Polish court cite when it deemed the 'Profiling the Unemployed' system unconstitutional in 2015?",
+        "ground_truth_answer": "I do not have enough legal context to answer this question.",
+        "question_type": "negative_control",
+        "expected_chunk_id": ""
+    },
+    {
+        "question": "According to Article 3(46) of the AI Act, what activities are included under the definition of 'law enforcement'?",
+        "ground_truth_answer": "According to Article 3(46) of the AI Act, law enforcement is defined as the 'activities carried out by law enforcement authorities or on their behalf for the prevention, investigation, detection or prosecution of criminal offences or the execution of criminal penalties, including safeguarding against and preventing threats to public security.'",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "General Guidance"
+    },
+    {
+        "question": "If a private entity is entrusted by Member State law to exercise public authority for the prosecution of criminal offences, does its use of RBI systems for this purpose fall under the prohibition of Article 5(1)(h) of the AI Act? Explain by linking the definition of law enforcement authorities with the scope of the prohibition.",
+        "ground_truth_answer": "Yes. The prohibition in Article 5(1)(h) of the AI Act applies to the use of RBI systems for law enforcement purposes, irrespective of the entity, authority, or body carrying out the activities. Under Article 3(45)(b) of the AI Act, the definition of 'law enforcement authorities' covers any body or entity (which may be private parties) entrusted by Member State law to exercise public authority and public powers for law enforcement purposes. Therefore, such an entrusted private entity is considered a law enforcement authority, and its activities fall under the scope of the prohibition.",
+        "question_type": "multi_hop",
+        "expected_chunk_id": "General Guidance"
+    },
+    {
+        "question": "What specific technical criteria and biometric accuracy thresholds must an RBI system meet to be exempt from the prohibition under Article 5(1)(h) of the AI Act when used at border control points?",
+        "ground_truth_answer": "I do not have enough legal context to answer this question.",
+        "question_type": "negative_control",
+        "expected_chunk_id": ""
+    },
+    {
+        "question": "What specific information regarding the provider's identity must be included in the instructions for use of a high-risk AI system under Article 13?",
+        "ground_truth_answer": "The instructions for use must contain the identity and the contact details of the provider and, where applicable, of its authorised representative.",
+        "question_type": "simple_lookup",
+        "expected_chunk_id": "Article 13"
+    },
+    {
+        "question": "How does the transparency requirement in Article 13(1) for high-risk AI systems facilitate a deployer's compliance with their specific obligations under Section 3 of the EU AI Act?",
+        "ground_truth_answer": "Article 13(1) requires high-risk AI systems to be designed and developed to ensure their operation is sufficiently transparent to enable deployers to interpret the system's output and use it appropriately, which ensures an appropriate type and degree of transparency with a view to achieving compliance with the relevant obligations of the provider and deployer set out in Section 3.",
+        "question_type": "multi_hop",
+        "expected_chunk_id": "Article 13"
+    },
+    {
+        "question": "What are the specific cybersecurity metrics and standards that a high-risk AI system must meet to satisfy the instructions for use requirement under Article 13(3)(b)(ii)?",
+        "ground_truth_answer": "I do not have enough legal context to answer this question.",
+        "question_type": "negative_control",
+        "expected_chunk_id": ""
+    }
+]
