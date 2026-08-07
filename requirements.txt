@@ -1,0 +1,13 @@
+streamlit
+langchain
+langchain-google-genai
+langchain-chroma
+langchain-huggingface
+langchain-classic
+langgraph
+pydantic
+chromadb
+sentence-transformers
+pymupdf4llm
+ragas
+pandas

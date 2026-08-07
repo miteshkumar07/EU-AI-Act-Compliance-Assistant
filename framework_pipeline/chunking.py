@@ -11,9 +11,7 @@ from langchain_classic.storage import LocalFileStore
 from langchain_classic.storage._lc_store import create_kv_docstore
 from langchain_classic.retrievers import ParentDocumentRetriever
 
-
-
-
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -62,7 +60,7 @@ def process_eu_ai_act(md_file_path, chunk_size=1000, chunk_overlap=100):
         model_kwargs={'device': 'cpu'}, 
         encode_kwargs={'normalize_embeddings': True}
     )
-    persist_dir: str = "../framework_chroma_db"
+    persist_dir: str = os.path.join(BASE_DIR, "framework_chroma_db")
     # Initialize empty Chroma DB
     eu_ai_act_embeddings_vectors = Chroma(
         collection_name="eu_ai_act_baseline",
@@ -86,7 +84,7 @@ def process_eu_ai_act(md_file_path, chunk_size=1000, chunk_overlap=100):
     semantic_chunker = SemanticChunker(eu_ai_act_embeddings)
     eu_ai_act_chunks_semantic = semantic_chunker.split_documents(docs)
 
-    persist_dir: str = "../framework_chroma_db"
+    persist_dir: str = os.path.join(BASE_DIR, "framework_chroma_db")
     # Initialize empty Chroma DB
     eu_ai_act_embeddings_vectors = Chroma(
         collection_name="eu_ai_act_semantic_chunks",
@@ -120,7 +118,7 @@ def process_eu_ai_act(md_file_path, chunk_size=1000, chunk_overlap=100):
     )
 
     # 3. Storage for Parent Chunks (Local Disk)
-    fs = LocalFileStore("../framework_docstore/eu_ai_act")
+    fs = LocalFileStore(os.path.join(BASE_DIR, "framework_docstore", "eu_ai_act"))
     store = create_kv_docstore(fs)
     
     # 4. The Retriever that manages both
@@ -198,7 +196,7 @@ def process_prohibited_ai_guidelines(md_file_path, chunk_size=1000, chunk_overla
         model_kwargs={'device': 'cpu'}, 
         encode_kwargs={'normalize_embeddings': True}
     )
-    persist_dir: str = "../framework_chroma_db"
+    persist_dir: str = os.path.join(BASE_DIR, "framework_chroma_db")
     # Initialize empty Chroma DB
     eu_ai_act_proh_embeddings_vectors = Chroma(
         collection_name="eu_ai_act_proh_baseline",
@@ -227,7 +225,7 @@ def process_prohibited_ai_guidelines(md_file_path, chunk_size=1000, chunk_overla
     semantic_chunker = SemanticChunker(eu_ai_act_proh_embeddings)
     eu_ai_act_chunks_semantic = semantic_chunker.split_documents(md_header_splits)
 
-    persist_dir: str = "../framework_chroma_db"
+    persist_dir: str = os.path.join(BASE_DIR, "framework_chroma_db")
     # Initialize empty Chroma DB
     # FIX: Use a unique collection name for the guidelines, and pass the embedding model!
     eu_ai_act_proh_embeddings_vectors_semantic = Chroma(
@@ -257,7 +255,7 @@ def process_prohibited_ai_guidelines(md_file_path, chunk_size=1000, chunk_overla
         persist_directory=persist_dir
     )
 
-    fs = LocalFileStore("../framework_docstore/eu_ai_act_proh")
+    fs = LocalFileStore(os.path.join(BASE_DIR, "framework_docstore", "eu_ai_act_proh"))
     store = create_kv_docstore(fs)
     
     retriever = ParentDocumentRetriever(
@@ -277,8 +275,8 @@ def process_prohibited_ai_guidelines(md_file_path, chunk_size=1000, chunk_overla
     return eu_ai_act_proh_embeddings_vectors
 
 if __name__ == "__main__":
-    ai_act_path = "../data/processed/clean_eu_ai_act.md"
-    proh_ai_path = "../data/processed/clean_eu_proh_ai_act.md"
+    ai_act_path = os.path.join(BASE_DIR, "data", "processed", "clean_eu_ai_act.md")
+    proh_ai_path = os.path.join(BASE_DIR, "data", "processed", "clean_eu_proh_ai_act.md")
     
     print("Processing EU AI Act...")
     ai_act_db = process_eu_ai_act(ai_act_path)

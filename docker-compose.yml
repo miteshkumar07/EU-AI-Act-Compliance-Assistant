@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  agentic-rag:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      # These environment variables will be injected at runtime
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - HF_TOKEN=${HF_TOKEN}
+      - HF_HOME=/app/.hf_cache
+#    volumes:
+#      # For local development only: uncomment to mount the current directory
+#      # Warning: doing this will hide the vector database built inside the container!
+#      - .:/app

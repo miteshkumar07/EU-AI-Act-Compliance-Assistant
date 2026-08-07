@@ -11,11 +11,21 @@ env/
 
 # Environment variables containing secret API keys
 .env
-0_framework_pipeline
 evaluation
 raw_pipeline/day_1_practice.ipynb
 raw_pipeline/test_new_query.py
 week 1 end.txt
 week 3 plan.txt
-framework_chroma_db
-framework_docstore
+framework_chroma_db/
+framework_docstore/
+.hf_cache/
+raw_pipeline
+data/raw/eval_set.json
+data_clean
+week 3 .md
+week 3 notes.md
+plan.md
+framework_plan.md
+framework_pipeline/chunking.ipynb
+framework_pipeline/cleaning.ipynb
+framework_pipeline/retrieval.ipynb
