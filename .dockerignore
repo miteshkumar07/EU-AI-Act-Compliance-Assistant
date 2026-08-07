@@ -7,8 +7,6 @@ __pycache__/
 *.pyc
 
 # Local Data and Databases (we rebuild these in the container)
-framework_chroma_db/
-framework_docstore/
 .hf_cache/
 
 # Irrelevant deployment directories

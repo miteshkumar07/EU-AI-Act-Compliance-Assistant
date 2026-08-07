@@ -16,8 +16,7 @@ raw_pipeline/day_1_practice.ipynb
 raw_pipeline/test_new_query.py
 week 1 end.txt
 week 3 plan.txt
-framework_chroma_db/
-framework_docstore/
+
 .hf_cache/
 raw_pipeline
 data/raw/eval_set.json

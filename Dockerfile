@@ -16,9 +16,8 @@ COPY app.py .
 COPY data/ ./data/
 COPY framework_pipeline/ ./framework_pipeline/
 
-# Build the vector database INSIDE the container before it launches
-# We run it from the framework_pipeline directory so relative paths work
-RUN cd framework_pipeline && python chunking.py
+COPY framework_chroma_db/ ./framework_chroma_db/
+COPY framework_docstore/ ./framework_docstore/
 
 # Set working directory to where the Streamlit app lives (root)
 WORKDIR /app
