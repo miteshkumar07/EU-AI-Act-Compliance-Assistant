@@ -8,7 +8,6 @@ services:
     environment:
       # These environment variables will be injected at runtime
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      - HF_TOKEN=${HF_TOKEN}
       - HF_HOME=/app/.hf_cache
 #    volumes:
 #      # For local development only: uncomment to mount the current directory

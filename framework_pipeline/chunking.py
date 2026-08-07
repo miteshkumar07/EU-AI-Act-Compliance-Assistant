@@ -6,7 +6,7 @@ from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 import os
 #import time
-from langchain_experimental.text_splitter import SemanticChunker
+#from langchain_experimental.text_splitter import SemanticChunker
 from langchain_classic.storage import LocalFileStore
 from langchain_classic.storage._lc_store import create_kv_docstore
 from langchain_classic.retrievers import ParentDocumentRetriever
@@ -48,60 +48,66 @@ def process_eu_ai_act(md_file_path, chunk_size=1000, chunk_overlap=100):
         Document(page_content=annex_text, metadata={"section": "annex", "source": filename})
     ]
 
-    print("Chunking using the Recursive Character Chunking method...")
-    # Chunk the documents while preserving metadata
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap
-    )
-    eu_ai_act_chunks_baseline = text_splitter.split_documents(docs)
+    # [DEPLOYMENT OPTIMIZATION]
+    # The baseline recursive chunking and semantic chunking methods have been disabled 
+    # for deployment because they take 1+ hours to build on Cloud Run CPUs, and 
+    # the production app only utilizes the Context-Enriched ParentDocumentRetriever.
+    
+    # print("Chunking using the Recursive Character Chunking method...")
+    # # Chunk the documents while preserving metadata
+    # text_splitter = RecursiveCharacterTextSplitter(
+    #     chunk_size=chunk_size,
+    #     chunk_overlap=chunk_overlap
+    # )
+    # eu_ai_act_chunks_baseline = text_splitter.split_documents(docs)
+    
     eu_ai_act_embeddings = HuggingFaceEmbeddings(
         model_name="BAAI/bge-large-en-v1.5", 
         model_kwargs={'device': 'cpu'}, 
         encode_kwargs={'normalize_embeddings': True}
     )
     persist_dir: str = os.path.join(BASE_DIR, "framework_chroma_db")
-    # Initialize empty Chroma DB
-    eu_ai_act_embeddings_vectors = Chroma(
-        collection_name="eu_ai_act_baseline",
-        embedding_function=eu_ai_act_embeddings,
-        persist_directory=persist_dir
-    )
-    
-    # Add documents in batches to avoid rate limits (100 requests per minute)
-    batch_size = 50
-    for i in range(0, len(eu_ai_act_chunks_baseline), batch_size):
-        batch = eu_ai_act_chunks_baseline[i:i + batch_size]
-        eu_ai_act_embeddings_vectors.add_documents(batch)
-        print(f"Added {min(i + batch_size, len(eu_ai_act_chunks_baseline))}/{len(eu_ai_act_chunks_baseline)} chunks for AI Act...")
-        if i + batch_size < len(eu_ai_act_chunks_baseline):
-            #time.sleep(32) # Wait 32 seconds before next batch to respect rate limits
-            pass
-    print("Saved the embeddings for the Recursive Character Chunking method to chroma db...")
-##########################################################################
-    print("Chunking using the Semantic Chunking method...")
-    # Chunk the documents while preserving metadata
-    semantic_chunker = SemanticChunker(eu_ai_act_embeddings)
-    eu_ai_act_chunks_semantic = semantic_chunker.split_documents(docs)
 
-    persist_dir: str = os.path.join(BASE_DIR, "framework_chroma_db")
-    # Initialize empty Chroma DB
-    eu_ai_act_embeddings_vectors = Chroma(
-        collection_name="eu_ai_act_semantic_chunks",
-        embedding_function=eu_ai_act_embeddings,
-        persist_directory=persist_dir
-    )
-    
-    # Add documents in batches to avoid rate limits (100 requests per minute)
-    batch_size = 50
-    for i in range(0, len(eu_ai_act_chunks_semantic), batch_size):
-        batch = eu_ai_act_chunks_semantic[i:i + batch_size]
-        eu_ai_act_embeddings_vectors.add_documents(batch)
-        print(f"Added {min(i + batch_size, len(eu_ai_act_chunks_semantic))}/{len(eu_ai_act_chunks_semantic)} chunks for AI Act...")
-        if i + batch_size < len(eu_ai_act_chunks_semantic):
-            #time.sleep(32) # Wait 32 seconds before next batch to respect rate limits
-            pass
-    print("Saved the embeddings for the Semantic Chunking method to chroma db...")
+    # # Initialize empty Chroma DB
+    # eu_ai_act_embeddings_vectors = Chroma(
+    #     collection_name="eu_ai_act_baseline",
+    #     embedding_function=eu_ai_act_embeddings,
+    #     persist_directory=persist_dir
+    # )
+    # 
+    # # Add documents in batches to avoid rate limits (100 requests per minute)
+    # batch_size = 50
+    # for i in range(0, len(eu_ai_act_chunks_baseline), batch_size):
+    #     batch = eu_ai_act_chunks_baseline[i:i + batch_size]
+    #     eu_ai_act_embeddings_vectors.add_documents(batch)
+    #     print(f"Added {min(i + batch_size, len(eu_ai_act_chunks_baseline))}/{len(eu_ai_act_chunks_baseline)} chunks for AI Act...")
+    #     if i + batch_size < len(eu_ai_act_chunks_baseline):
+    #         #time.sleep(32) # Wait 32 seconds before next batch to respect rate limits
+    #         pass
+    # print("Saved the embeddings for the Recursive Character Chunking method to chroma db...")
+    # ##########################################################################
+    # print("Chunking using the Semantic Chunking method...")
+    # # Chunk the documents while preserving metadata
+    # semantic_chunker = SemanticChunker(eu_ai_act_embeddings)
+    # eu_ai_act_chunks_semantic = semantic_chunker.split_documents(docs)
+    #
+    # # Initialize empty Chroma DB
+    # eu_ai_act_embeddings_vectors = Chroma(
+    #     collection_name="eu_ai_act_semantic_chunks",
+    #     embedding_function=eu_ai_act_embeddings,
+    #     persist_directory=persist_dir
+    # )
+    # 
+    # # Add documents in batches to avoid rate limits (100 requests per minute)
+    # batch_size = 50
+    # for i in range(0, len(eu_ai_act_chunks_semantic), batch_size):
+    #     batch = eu_ai_act_chunks_semantic[i:i + batch_size]
+    #     eu_ai_act_embeddings_vectors.add_documents(batch)
+    #     print(f"Added {min(i + batch_size, len(eu_ai_act_chunks_semantic))}/{len(eu_ai_act_chunks_semantic)} chunks for AI Act...")
+    #     if i + batch_size < len(eu_ai_act_chunks_semantic):
+    #         #time.sleep(32) # Wait 32 seconds before next batch to respect rate limits
+    #         pass
+    # print("Saved the embeddings for the Semantic Chunking method to chroma db...")
 
 ##########################################################################
     print("Chunking using the Context-Enriched Chunking (ParentDocumentRetriever) method...")
@@ -136,7 +142,7 @@ def process_eu_ai_act(md_file_path, chunk_size=1000, chunk_overlap=100):
     print("Saved the embeddings for the Context-Enriched Chunking method to chroma db...")
 ##########################################################################
             
-    return eu_ai_act_embeddings_vectors
+    return eu_ai_act_embeddings_vectors_context
 
 def process_prohibited_ai_guidelines(md_file_path, chunk_size=1000, chunk_overlap=100):
     """
@@ -182,68 +188,70 @@ def process_prohibited_ai_guidelines(md_file_path, chunk_size=1000, chunk_overla
     for doc in md_header_splits:
         doc.metadata["source"] = filename
         
-    print("Chunking using the Recursive Character Chunking method...")
-
-    # 2. Chop them down to the specified size if they are too long
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap
-    )
-
-    eu_ai_act_proh_chunks = text_splitter.split_documents(md_header_splits)
+    # [DEPLOYMENT OPTIMIZATION]
+    # Baseline and Semantic chunking disabled for deployment. 
+    # Only building the Context-Enriched chunks.
+    
+    # print("Chunking using the Recursive Character Chunking method...")
+    # 
+    # # 2. Chop them down to the specified size if they are too long
+    # text_splitter = RecursiveCharacterTextSplitter(
+    #     chunk_size=chunk_size,
+    #     chunk_overlap=chunk_overlap
+    # )
+    # 
+    # eu_ai_act_proh_chunks = text_splitter.split_documents(md_header_splits)
+    
     eu_ai_act_proh_embeddings = HuggingFaceEmbeddings(
         model_name="BAAI/bge-large-en-v1.5", 
         model_kwargs={'device': 'cpu'}, 
         encode_kwargs={'normalize_embeddings': True}
     )
     persist_dir: str = os.path.join(BASE_DIR, "framework_chroma_db")
-    # Initialize empty Chroma DB
-    eu_ai_act_proh_embeddings_vectors = Chroma(
-        collection_name="eu_ai_act_proh_baseline",
-        embedding_function=eu_ai_act_proh_embeddings,
-        persist_directory=persist_dir
-    )
     
-    # Add documents in batches to avoid rate limits
-    batch_size = 50
-    for i in range(0, len(eu_ai_act_proh_chunks), batch_size):
-        batch = eu_ai_act_proh_chunks[i:i + batch_size]
-        eu_ai_act_proh_embeddings_vectors.add_documents(batch)
-        print(f"Added {min(i + batch_size, len(eu_ai_act_proh_chunks))}/{len(eu_ai_act_proh_chunks)} chunks for Prohibited Guidelines...")
-        if i + batch_size < len(eu_ai_act_proh_chunks):
-            #time.sleep(32) # Wait 32 seconds before next batch to respect rate limits
-            pass
-    print("Saved the embeddings for the Recursive Character Chunking method to chroma db...")
-    ##########################################################################
-
-
-
-
-    print("Chunking using the Semantic Chunking method...")
-    # Chunk the documents while preserving metadata
-    # FIX: Pass the embedding model, not the text string!
-    semantic_chunker = SemanticChunker(eu_ai_act_proh_embeddings)
-    eu_ai_act_chunks_semantic = semantic_chunker.split_documents(md_header_splits)
-
-    persist_dir: str = os.path.join(BASE_DIR, "framework_chroma_db")
-    # Initialize empty Chroma DB
-    # FIX: Use a unique collection name for the guidelines, and pass the embedding model!
-    eu_ai_act_proh_embeddings_vectors_semantic = Chroma(
-        collection_name="eu_ai_act_proh_semantic_chunks",
-        embedding_function=eu_ai_act_proh_embeddings,
-        persist_directory=persist_dir
-    )
-    
-    # Add documents in batches
-    batch_size = 50
-    for i in range(0, len(eu_ai_act_chunks_semantic), batch_size):
-        batch = eu_ai_act_chunks_semantic[i:i + batch_size]
-        eu_ai_act_proh_embeddings_vectors_semantic.add_documents(batch)
-        print(f"Added {min(i + batch_size, len(eu_ai_act_chunks_semantic))}/{len(eu_ai_act_chunks_semantic)} chunks for Prohibited Guidelines (Semantic)...")
-        
-    print("Saved the embeddings for the Semantic Chunking method to chroma db...")
-    
-##########################################################################
+    # # Initialize empty Chroma DB
+    # eu_ai_act_proh_embeddings_vectors = Chroma(
+    #     collection_name="eu_ai_act_proh_baseline",
+    #     embedding_function=eu_ai_act_proh_embeddings,
+    #     persist_directory=persist_dir
+    # )
+    # 
+    # # Add documents in batches to avoid rate limits
+    # batch_size = 50
+    # for i in range(0, len(eu_ai_act_proh_chunks), batch_size):
+    #     batch = eu_ai_act_proh_chunks[i:i + batch_size]
+    #     eu_ai_act_proh_embeddings_vectors.add_documents(batch)
+    #     print(f"Added {min(i + batch_size, len(eu_ai_act_proh_chunks))}/{len(eu_ai_act_proh_chunks)} chunks for Prohibited Guidelines...")
+    #     if i + batch_size < len(eu_ai_act_proh_chunks):
+    #         #time.sleep(32) # Wait 32 seconds before next batch to respect rate limits
+    #         pass
+    # print("Saved the embeddings for the Recursive Character Chunking method to chroma db...")
+    # ##########################################################################
+    # 
+    # print("Chunking using the Semantic Chunking method...")
+    # # Chunk the documents while preserving metadata
+    # # FIX: Pass the embedding model, not the text string!
+    # semantic_chunker = SemanticChunker(eu_ai_act_proh_embeddings)
+    # eu_ai_act_chunks_semantic = semantic_chunker.split_documents(md_header_splits)
+    # 
+    # # Initialize empty Chroma DB
+    # # FIX: Use a unique collection name for the guidelines, and pass the embedding model!
+    # eu_ai_act_proh_embeddings_vectors_semantic = Chroma(
+    #     collection_name="eu_ai_act_proh_semantic_chunks",
+    #     embedding_function=eu_ai_act_proh_embeddings,
+    #     persist_directory=persist_dir
+    # )
+    # 
+    # # Add documents in batches
+    # batch_size = 50
+    # for i in range(0, len(eu_ai_act_chunks_semantic), batch_size):
+    #     batch = eu_ai_act_chunks_semantic[i:i + batch_size]
+    #     eu_ai_act_proh_embeddings_vectors_semantic.add_documents(batch)
+    #     print(f"Added {min(i + batch_size, len(eu_ai_act_chunks_semantic))}/{len(eu_ai_act_chunks_semantic)} chunks for Prohibited Guidelines (Semantic)...")
+    #     
+    # print("Saved the embeddings for the Semantic Chunking method to chroma db...")
+    # 
+    # ##########################################################################
     print("Chunking using the Context-Enriched Chunking (ParentDocumentRetriever) method...")
     
     parent_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
@@ -271,8 +279,8 @@ def process_prohibited_ai_guidelines(md_file_path, chunk_size=1000, chunk_overla
     print("Saved the embeddings for the Context-Enriched Chunking method to chroma db...")
 ##########################################################################
 
-    # Return the baseline vectors so the print statements at the bottom still work
-    return eu_ai_act_proh_embeddings_vectors
+    # Return the context vectors so the print statements at the bottom still work
+    return eu_ai_act_proh_embeddings_vectors_context
 
 if __name__ == "__main__":
     ai_act_path = os.path.join(BASE_DIR, "data", "processed", "clean_eu_ai_act.md")

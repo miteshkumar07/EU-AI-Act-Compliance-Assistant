@@ -11,8 +11,10 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire project so the vector DB is accessible
-COPY . .
+# Copy only the necessary files and folders for the deployment
+COPY app.py .
+COPY data/ ./data/
+COPY framework_pipeline/ ./framework_pipeline/
 
 # Build the vector database INSIDE the container before it launches
 # We run it from the framework_pipeline directory so relative paths work
