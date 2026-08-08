@@ -147,7 +147,7 @@ if user_query := st.chat_input("E.g., What are the specific penalties under Arti
     st.session_state.messages.append({"role": "user", "content": user_query})
 
     with st.status("Analyzing request...", expanded=True) as status:
-        status.update(label="Booting up AI models (First query only, takes ~60s)...", state="running")
+        status.update(label="Initializing models from local cache (First query only)...", state="running")
         agent_app = load_agent()
         
         # Prepare chat history string
