@@ -11,6 +11,12 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Pre-download HuggingFace models so they are baked into the Docker image
+RUN python -c "from langchain_huggingface import HuggingFaceEmbeddings; \
+from langchain_community.cross_encoders import HuggingFaceCrossEncoder; \
+HuggingFaceEmbeddings(model_name='BAAI/bge-large-en-v1.5', model_kwargs={'device': 'cpu'}); \
+HuggingFaceCrossEncoder(model_name='cross-encoder/ms-marco-MiniLM-L-6-v2', model_kwargs={'device': 'cpu'})"
+
 # Copy only the necessary files and folders for the deployment
 COPY app.py .
 COPY data/ ./data/
