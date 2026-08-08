@@ -1,6 +1,6 @@
 from framework_pipeline.retrieval import build_ensemble_retriever
 from langgraph.graph import StateGraph, START, END
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_vertexai import ChatVertexAI
 from typing import TypedDict, List
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -23,7 +23,7 @@ retriever = build_ensemble_retriever()
 class SearchQueries(BaseModel):
     queries: List[str] = Field(description="A list of 1 to 3 distinct search queries derived from the user's question.")
 
-decomposer_llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+decomposer_llm = ChatVertexAI(model_name="gemini-2.5-flash", temperature=0, project="ragbench-aiact")
 structured_decomposer = decomposer_llm.with_structured_output(SearchQueries)
 
 decomposer_prompt = ChatPromptTemplate.from_template("""
@@ -39,7 +39,7 @@ query_decomposer = decomposer_prompt | structured_decomposer
 class IntentDecision(BaseModel):
     decision: str = Field(description="Return 'greeting' if casual conversation, 'legal' if asking about regulations or AI Act.")
 
-intent_llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+intent_llm = ChatVertexAI(model_name="gemini-2.5-flash", temperature=0, project="ragbench-aiact")
 structured_intent = intent_llm.with_structured_output(IntentDecision)
 
 def route_intent(state: AgentState):
@@ -112,7 +112,7 @@ def retriever_node(state: AgentState):
 
 
 # Finally generates the answer based on the retrieved documents and the user's question
-llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+llm = ChatVertexAI(model_name="gemini-2.5-flash", temperature=0, project="ragbench-aiact")
 prompt = ChatPromptTemplate.from_template("""
 You are an expert legal AI assistant specializing in the European Union Artificial Intelligence Act (EU AI Act).
 Your goal is to provide highly accurate, professional, and helpful answers based ONLY on the retrieved legal context.
@@ -154,7 +154,7 @@ def generation_node(state: AgentState):
 class GradeDocument(BaseModel):
     """ Binary score for the retrieved document based on the relevance to the question. """
     binary_score: str = Field(description="Binary score 'yes' or 'no' indicating relevance of the document to the question.")
-grader_llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+grader_llm = ChatVertexAI(model_name="gemini-2.5-flash", temperature=0, project="ragbench-aiact")
 structured_llm_grader = grader_llm.with_structured_output(GradeDocument)
 grader_prompt = ChatPromptTemplate.from_template("""
 You are a grader assessing relevance. If the document contains keywords or
@@ -213,7 +213,7 @@ def check_hallucination(state: AgentState):
 def rewrite_question(state: AgentState):
     """ If the filter documents node returns no documents, we can try to rewrite the question to be more specific."""
     print("\n---NODE: REWRITING QUESTION---")
-    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+    llm = ChatVertexAI(model_name="gemini-2.5-flash", temperature=0, project="ragbench-aiact")
     prompt = ChatPromptTemplate.from_template("""You are the best question rewritter that optimizes questions for vector search. 
 Look at the input and try to reason about the underlying semantic intent / meaning in the context of the EU AI Act.
 So, rewrite the following question: {question}""")
@@ -238,7 +238,7 @@ def clarification_node(state: AgentState):
 class RoutingDecision(BaseModel):
     decision: str = Field(description="Return 'clarify' if vague, 'rewrite' if specific.")
 
-routing_llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+routing_llm = ChatVertexAI(model_name="gemini-2.5-flash", temperature=0, project="ragbench-aiact")
 structured_routing = routing_llm.with_structured_output(RoutingDecision)
 
 def decide_to_generate(state: AgentState):
